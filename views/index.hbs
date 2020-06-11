@@ -2,18 +2,18 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>App</title>
+    <title>VIP Mobile Print</title>
 </head>
 <body>
-<style>
-    body {
-        background-color: black;
-    }
-    * {
-        color: white;
-    }
-</style>
-<h1>Type: {{type}}</h1>
-<h2>Parked: {{parkedDate}}</h2>
+<form action="/print" method="post">
+    <select id="printers" name="printer">
+        {{#each printers}}
+            <option value="{{this.name}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+    <input name="type" type="text">
+
+    <button type="submit">Print</button>
+</form>
 </body>
 </html>

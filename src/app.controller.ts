@@ -1,8 +1,9 @@
-import { Controller, Get, Param, Query, Render } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Render } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Printer } from './model/printer.model';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrinterOptions } from './model/printer-options.model';
+import { PrintFormOptions } from './model/print-form-options.interface';
 
 @Controller()
 export class AppController {
@@ -11,8 +12,19 @@ export class AppController {
 
   @Get()
   @Render('index')
-  root(@Query('type') type: string) {
-    return { message: 'Hello world!', type, parkedDate: Date.now() };
+  root() {
+    return { printers: this.appService.getPrinters() };
+  }
+
+  @Get('/label')
+  @Render('label')
+  label(@Query('type') type: string) {
+    return {type, parkedDate: new Date()}
+  }
+
+  @Post('/print')
+  print(@Body() options: PrintFormOptions) {
+    return this.appService.print(options.printer, options.type);
   }
 
   @Get('printers')
